@@ -1,0 +1,14 @@
+{
+    "name": "design-lila/backend",
+    "description": "API REST de Design Lila",
+    "type": "project",
+    "require": {
+        "php": ">=8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "DesignLila\\": "src/"
+        }
+    }
+}
+
