@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use DesignLila\Config\Env;
+use DesignLila\Database\Connection;
 use DesignLila\Http\JsonResponse;
 use DesignLila\Http\Request;
 use DesignLila\Http\Router;
@@ -38,6 +39,23 @@ $router->get('/api/v1/health', static function (): never {
         'php_version' => PHP_VERSION,
     ]);
 });
+$router->get('/api/v1/health/database', static function (): never {
+    try {
+        $result = Connection::get()->query('SELECT 1')->fetchColumn();
+
+        if ($result !== 1 && $result !== '1') {
+            throw new RuntimeException('Unexpected database health check result.');
+        }
+
+        JsonResponse::success([
+            'database' => 'connected',
+            'test' => 'SELECT 1',
+        ]);
+    } catch (Throwable $exception) {
+        error_log('[database health check] ' . $exception->getMessage());
+        JsonResponse::error('Database connection failed.', 503);
+    }
+});
 
 try {
     $router->dispatch(Request::method(), Request::path());
@@ -50,4 +68,3 @@ try {
     $message = Env::boolean('APP_DEBUG') ? $exception->getMessage() : 'Internal server error.';
     JsonResponse::error($message, 500);
 }
-

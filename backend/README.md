@@ -4,7 +4,7 @@ Backend REST de Design Lila para PHP 8.4 y MariaDB 10.11.
 
 ## Estado actual
 
-Esta primera etapa contiene únicamente la infraestructura base. No crea ni modifica tablas y no ejecuta conexiones a MariaDB desde el endpoint de salud.
+Esta primera etapa contiene únicamente la infraestructura base. No crea ni modifica tablas. El endpoint de salud de base de datos ejecuta únicamente `SELECT 1`.
 
 ## Configuración local
 
@@ -27,6 +27,14 @@ El endpoint inicial es:
 ```text
 GET /api/v1/health
 ```
+
+Para comprobar la conexión PDO/MariaDB con las variables de `backend/.env`, abre:
+
+```text
+GET /api/v1/health/database
+```
+
+Una conexión correcta responde HTTP 200 con `"database":"connected"`. Si falla, responde HTTP 503 sin exponer credenciales ni detalles internos; el error completo queda en el log PHP del servidor.
 
 ## Despliegue con Git Version Control de cPanel
 

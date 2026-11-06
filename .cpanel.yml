@@ -4,3 +4,4 @@ deployment:
     - export DEPLOYPATH=/home/designli/dev.designlila.com
     - /bin/mkdir -p $DEPLOYPATH/backend
     - /bin/cp -R backend/. $DEPLOYPATH/backend/
+    - /bin/rm -f $DEPLOYPATH/backend/public/db-check-temporary.php
