@@ -15,7 +15,12 @@ final class Env
             return;
         }
 
-        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            throw new \RuntimeException('Unable to read the environment file.');
+        }
+
+        foreach ($lines as $line) {
             $line = trim($line);
 
             if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
@@ -40,7 +45,9 @@ final class Env
 
     public static function get(string $key, ?string $default = null): ?string
     {
-        return self::$values[$key] ?? $_ENV[$key] ?? getenv($key) ?: $default;
+        $value = self::$values[$key] ?? $_ENV[$key] ?? getenv($key);
+
+        return is_string($value) ? $value : $default;
     }
 
     public static function required(string $key): string
@@ -59,4 +66,3 @@ final class Env
         return filter_var(self::get($key, $default ? 'true' : 'false'), FILTER_VALIDATE_BOOLEAN);
     }
 }
-

@@ -115,16 +115,14 @@ La fase de diseño y ajustes principales de la base de datos está terminada.
 Las relaciones de pedidos, pagos y movimientos de inventario están verificadas.
 La política de descuento de inventario está confirmada.
 
-## Próximo paso
-Iniciar la implementación del backend PHP:
+## Próximos pasos pendientes
+- Completar la integración de SEO antes de cambiar slugs o publicar la migración: recopilar las URLs indexadas actuales, metadatos, sitemap.xml, robots.txt, canonicales, datos estructurados y reglas de redirección; contrastarlos con las rutas del nuevo sitio.
+- Replicar en Angular la salida SEO necesaria para las páginas públicas y conservar las URLs actuales cuando sea posible.
+- Conectar y validar la tabla existente `redirecciones_seo` para servir redirecciones permanentes 301 de las URLs antiguas a sus destinos nuevos. No borrar ni reemplazar reglas existentes.
+- Validar las reglas y páginas con el sitemap y una exportación de Search Console antes del cambio de dominio/plataforma. No publicar la migración ni cambiar slugs hasta tener este inventario y un plan de redirecciones.
+- Probar en el hosting los módulos del backend contra la base de datos real y verificar los permisos iniciales antes de habilitar operaciones comerciales.
 
-1. Crear estructura de carpetas.
-2. Configurar variables de entorno.
-3. Implementar conexión PDO.
-4. Crear enrutador REST.
-5. Implementar respuestas JSON y manejo de errores.
-6. Implementar autenticación y permisos.
-7. Desarrollar módulos funcionales progresivamente.
+Para realizar el trabajo de SEO se necesita recibir una exportación sin credenciales de las URLs actuales y sus redirecciones, `sitemap.xml`, `robots.txt`, la configuración/exportación del plugin SEO y el código/rutas Angular que genera títulos, descripciones, canonicales y datos estructurados. No compartir `.env`, contraseñas, tokens ni accesos a Search Console.
 
 ## Forma de trabajo
 - Trabajar paso a paso.
