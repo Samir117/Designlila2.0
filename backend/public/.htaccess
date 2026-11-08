@@ -1,6 +1,8 @@
 Options -Indexes
 RewriteEngine On
 
+RewriteRule ^frontend-hosting-probe(?:/|$) - [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

@@ -10,11 +10,18 @@ const route = window.location.pathname;
 document.querySelector("#current-route").textContent = route;
 setCheck("html", true);
 setCheck("javascript", true);
-setCheck("route", route === "/" || route === "/prueba-ruta-seo/");
+setCheck(
+  "route",
+  route === "/frontend-hosting-probe/" ||
+    route === "/frontend-hosting-probe/prueba-ruta-seo/",
+);
 
 const stylesheet = [...document.styleSheets].some((sheet) => {
   try {
-    return sheet.href && new URL(sheet.href).pathname === "/probe.css";
+    return (
+      sheet.href &&
+      new URL(sheet.href).pathname === "/frontend-hosting-probe/probe.css"
+    );
   } catch {
     return false;
   }
