@@ -1,0 +1,150 @@
+:host {
+  display: block;
+}
+
+.hero {
+  padding: clamp(26px, 6vw, 64px);
+  border: 1px solid var(--lila-line);
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 92% 10%, #f0e2f4 0, transparent 36%),
+    var(--lila-paper);
+  box-shadow: 0 24px 70px rgb(51 38 58 / 6%);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: var(--lila-accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 720px;
+  margin: 0;
+  color: var(--lila-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.6rem, 8vw, 5.25rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.99;
+}
+
+.intro {
+  max-width: 550px;
+  margin: 22px 0 28px;
+  color: var(--lila-muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.button,
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  text-decoration: none;
+}
+
+.button {
+  padding-inline: 20px;
+  border-radius: 999px;
+  background: var(--lila-accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.button:hover {
+  background: #5e3a6a;
+}
+
+.checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  padding: 34px 8px 12px;
+}
+
+.checks .eyebrow {
+  margin-bottom: 8px;
+}
+
+h2 {
+  margin: 0;
+  color: var(--lila-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 500;
+}
+
+ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  color: var(--lila-muted);
+  list-style: none;
+}
+
+.check,
+.pending,
+.result-icon {
+  display: inline-grid;
+  width: 25px;
+  height: 25px;
+  margin-right: 8px;
+  border-radius: 50%;
+  place-items: center;
+}
+
+.check,
+.result-icon {
+  background: #e4f2e9;
+  color: var(--lila-success);
+}
+
+.pending {
+  background: #f0eaf2;
+  color: var(--lila-accent);
+}
+
+.result {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 18px;
+  border: 1px solid var(--lila-line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--lila-muted);
+  line-height: 1.5;
+}
+
+.result strong {
+  color: var(--lila-ink);
+}
+
+.result-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+
+.text-link {
+  margin-left: 14px;
+  color: var(--lila-accent);
+  font-weight: 700;
+}
+
+@media (max-width: 680px) {
+  .checks {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  h1 br {
+    display: none;
+  }
+}

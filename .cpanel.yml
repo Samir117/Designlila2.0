@@ -8,3 +8,7 @@ deployment:
     - export PROBEPATH=$DEPLOYPATH/backend/public/frontend-hosting-probe
     - /bin/mkdir -p $PROBEPATH
     - /bin/cp frontend-hosting-probe/.htaccess frontend-hosting-probe/index.html frontend-hosting-probe/probe.css frontend-hosting-probe/probe.js $PROBEPATH/
+    - export ANGULARPATH=$DEPLOYPATH/backend/public/angular-hosting-probe
+    - /bin/mkdir -p $ANGULARPATH
+    - /bin/cp -R frontend-hosting-probe/angular-dist/. $ANGULARPATH/
+    - /bin/cp frontend-hosting-probe/angular-app/deploy.htaccess $ANGULARPATH/.htaccess
