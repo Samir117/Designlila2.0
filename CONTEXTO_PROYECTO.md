@@ -18,6 +18,11 @@ Migrar completamente la tienda Design Lila desde WordPress a una aplicación pro
 - MariaDB como almacenamiento.
 - Comunicación mediante HTTPS y JSON.
 - El frontend nunca se conecta directamente a MariaDB.
+- Código del frontend en `frontend/`, organizado en `core/`, `features/` y `shared/ui/`; compila a archivos estáticos para cPanel.
+- El hosting entrega los archivos compilados; no se presupone Node.js persistente en el plan H1.
+- El documento `frontend/README.md` describe comandos, módulos, despliegue y restricciones SEO.
+- Desarrollo actual local: Angular usa rutas desde `/`, como en el dominio principal, y el proxy local `/api/` apunta a la API PHP; no se agrega un prefijo de pruebas a las rutas.
+- El build de Angular se genera localmente en `frontend/deploy/browser` y se versiona para cPanel. `.cpanel.yml` despliega backend y frontend solamente a `dev.designlila.com`; no publicar en el dominio principal sin autorización expresa.
 
 ## Decisiones comerciales
 - Se permiten productos simples y productos con variantes.
@@ -114,6 +119,7 @@ Las tablas comerciales todavía no tienen productos ni pedidos de prueba.
 La fase de diseño y ajustes principales de la base de datos está terminada.
 Las relaciones de pedidos, pagos y movimientos de inventario están verificadas.
 La política de descuento de inventario está confirmada.
+La migración SEO continúa en pausa por decisión de la usuaria. El frontend tiene una estructura Angular inicial, pero aún no es una tienda terminada ni está lista para indexación. Los builds mantienen `noindex`; no cambiar slugs, publicar la migración ni habilitar indexación sin retomar y aprobar el inventario SEO y la estrategia de renderizado.
 
 ## Próximos pasos pendientes
 - Completar la integración de SEO antes de cambiar slugs o publicar la migración: recopilar las URLs indexadas actuales, metadatos, sitemap.xml, robots.txt, canonicales, datos estructurados y reglas de redirección; contrastarlos con las rutas del nuevo sitio.

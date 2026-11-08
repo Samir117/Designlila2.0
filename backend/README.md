@@ -206,15 +206,16 @@ Los usuarios administrativos se crean con `POST /api/v1/admin/users` y `{ "name"
 
 ## Despliegue en cPanel
 
-El archivo `.cpanel.yml` publica `backend` en `/home/designli/dev.designlila.com/backend` cuando se ejecuta **Deploy HEAD Commit**. El directorio clonado en Git Version Control debe estar fuera del document root, por ejemplo `/home/designli/repositories/Designlila2.0`.
+El archivo `.cpanel.yml` publica el backend y el build estático incluido del frontend en `/home/designli/dev.designlila.com/backend`; el document root del subdominio es `/home/designli/dev.designlila.com/backend/public`. El build se genera localmente en `frontend/deploy/browser` y se versiona para que cPanel no necesite Node.js. El directorio clonado en Git Version Control debe estar fuera del document root, por ejemplo `/home/designli/repositories/Designlila2.0`.
 
-1. Haz commit y push a `main`.
-2. En cPanel, ejecuta **Update from Remote** y luego **Deploy HEAD Commit**.
-3. Configura el document root del subdominio como `/home/designli/dev.designlila.com/backend/public`.
-4. Crea `/home/designli/dev.designlila.com/backend/.env` con credenciales de producción; cPanel no lo reemplaza durante el despliegue.
-5. Verifica `https://dev.designlila.com/api/v1/health` y `https://dev.designlila.com/api/v1/health/database`.
+1. Desde `frontend`, ejecuta `npm ci` y `npm run build`; verifica que `frontend/deploy/browser/index.html` exista y conserve `noindex, nofollow`.
+2. Haz commit y push a `main`, incluyendo el artefacto generado en `frontend/deploy/browser`.
+3. En cPanel, ejecuta **Update from Remote** y luego **Deploy HEAD Commit**. El archivo de despliegue tiene como destino únicamente el entorno `dev.designlila.com`.
+4. Conserva el document root del subdominio en `/home/designli/dev.designlila.com/backend/public`.
+5. Crea `/home/designli/dev.designlila.com/backend/.env` con las credenciales de la base de pruebas; cPanel no lo reemplaza durante el despliegue.
+6. Verifica `https://dev.designlila.com/`, `https://dev.designlila.com/admin/login`, `https://dev.designlila.com/api/v1/health` y `https://dev.designlila.com/api/v1/health/database`.
 
-El push por sí solo no despliega los cambios: el paso de despliegue se inicia desde cPanel.
+El push por sí solo no despliega los cambios: el paso de despliegue se inicia desde cPanel. No apuntes este flujo al dominio principal; cualquier despliegue de producción requiere autorización expresa de la usuaria.
 
 ## Tareas pendientes antes de migrar el SEO
 

@@ -5,10 +5,6 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/backend
     - /bin/cp -R backend/. $DEPLOYPATH/backend/
     - /bin/rm -f $DEPLOYPATH/backend/public/db-check-temporary.php
-    - export PROBEPATH=$DEPLOYPATH/backend/public/frontend-hosting-probe
-    - /bin/mkdir -p $PROBEPATH
-    - /bin/cp frontend-hosting-probe/.htaccess frontend-hosting-probe/index.html frontend-hosting-probe/probe.css frontend-hosting-probe/probe.js $PROBEPATH/
-    - export ANGULARPATH=$DEPLOYPATH/backend/public/angular-hosting-probe
-    - /bin/mkdir -p $ANGULARPATH
-    - /bin/cp -R frontend-hosting-probe/angular-dist/. $ANGULARPATH/
-    - /bin/cp frontend-hosting-probe/angular-app/deploy.htaccess $ANGULARPATH/.htaccess
+    - /bin/rm -rf $DEPLOYPATH/backend/public/frontend-hosting-probe $DEPLOYPATH/backend/public/angular-hosting-probe
+    - /bin/cp -R frontend/deploy/browser/. $DEPLOYPATH/backend/public/
+    - /bin/cp frontend/deploy/3rdpartylicenses.txt $DEPLOYPATH/backend/public/

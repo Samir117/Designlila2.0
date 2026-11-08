@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+header {
+  padding: 20px max(24px, calc((100% - 1120px) / 2));
+  border-bottom: 1px solid var(--color-border);
+}
+
+header a {
+  color: var(--color-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main {
+  width: min(100% - 40px, 1120px);
+  margin: 0 auto;
+  padding-block: 36px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 10px 14px;
+  transform: translateY(-160%);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
