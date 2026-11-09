@@ -14,9 +14,9 @@ import { RouterLink } from '@angular/router';
   `,
   styles: `
     section { max-width: 720px; margin: 80px auto; padding: 32px; }
-    .eyebrow { color: var(--color-plum); font-weight: 700; }
-    h1 { color: var(--color-ink); font: 500 clamp(2rem, 6vw, 4rem)/1.1 var(--font-display); }
-    a { color: var(--color-plum); }
+    .eyebrow { color: var(--color-heading); font-weight: 700; }
+    h1 { color: var(--color-heading); font: 500 clamp(2rem, 6vw, 4rem)/1.1 var(--font-display); }
+    a { color: var(--color-accent); }
   `,
 })
 export class NotFoundPage {}

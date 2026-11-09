@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminAuthGuard } from './admin-auth.guard';
 import { AdminLayout } from './ui/admin-layout';
 
 export const ADMIN_ROUTES: Routes = [
@@ -22,11 +23,32 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'dashboard',
+        canActivate: [adminAuthGuard],
         loadComponent: () =>
           import('./pages/admin-dashboard-page').then(
             (module) => module.AdminDashboardPage,
           ),
         title: 'Administración | Design Lila',
+        data: { seo: { indexable: false } },
+      },
+      {
+        path: 'products',
+        canActivate: [adminAuthGuard],
+        loadComponent: () =>
+          import('./pages/admin-products-page').then(
+            (module) => module.AdminProductsPage,
+          ),
+        title: 'Productos | Administración | Design Lila',
+        data: { seo: { indexable: false } },
+      },
+      {
+        path: 'categories',
+        canActivate: [adminAuthGuard],
+        loadComponent: () =>
+          import('./pages/admin-categories-page').then(
+            (module) => module.AdminCategoriesPage,
+          ),
+        title: 'Categorías | Administración | Design Lila',
         data: { seo: { indexable: false } },
       },
     ],

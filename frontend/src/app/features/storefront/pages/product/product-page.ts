@@ -87,6 +87,7 @@ export class ProductPage {
             catchError((error: unknown) => {
               this.loading.set(false);
               this.error.set(this.errorMessage(error));
+              this.updateSeo(null, slug);
               return EMPTY;
             }),
           ),
@@ -96,15 +97,69 @@ export class ProductPage {
       .subscribe((product) => {
         this.product.set(product);
         this.loading.set(false);
-        this.seo.apply(
-          {
-            title: product.meta_title || `${product.nombre} | Design Lila`,
-            description: product.meta_description || product.descripcion_corta,
-            indexable: false,
-          },
-          `/product/${product.slug}/`,
-        );
+        this.updateSeo(product, product.slug);
       });
+  }
+
+  private updateSeo(product: CatalogProduct | null, slug: string): void {
+    const canonicalPath = `/product/${encodeURIComponent(slug)}/`;
+    const description =
+      product?.meta_description?.trim() ||
+      product?.descripcion_corta?.trim() ||
+      '';
+    const imagePath = product?.images[0]?.ruta;
+    const image = imagePath
+      ? new URL(imagePath, 'https://www.designlila.com').toString()
+      : undefined;
+    const price = Number(product?.precio_oferta || product?.precio);
+
+    this.seo.apply(
+      {
+        title: product
+          ? product.meta_title?.trim() || `${product.nombre} | Design Lila`
+          : 'Producto no disponible | Design Lila',
+        description,
+        canonicalPath,
+        image,
+        type: 'product',
+        indexable: Boolean(product && description && Number.isFinite(price) && price > 0),
+      },
+      canonicalPath,
+    );
+
+    if (product && Number.isFinite(price) && price > 0) {
+      const offer = {
+        '@type': 'Offer',
+        priceCurrency: 'COP',
+        price: price.toFixed(2),
+        availability: product.in_stock
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+        url: `https://www.designlila.com${canonicalPath}`,
+        itemCondition: 'https://schema.org/NewCondition',
+      };
+      this.seo.setStructuredData({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.nombre,
+        description,
+        sku: product.sku,
+        category: product.categoria ?? undefined,
+        image: image ? [image] : undefined,
+        url: `https://www.designlila.com${canonicalPath}`,
+        offers: product.variants.length
+          ? product.variants.map((variant) => ({
+              ...offer,
+              sku: variant.sku,
+              name: `${product.nombre} - ${variant.nombre}`,
+              price: Number(variant.precio ?? product.precio).toFixed(2),
+              availability: variant.in_stock
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock',
+            }))
+          : offer,
+      });
+    }
   }
 
   private errorMessage(error: unknown): string {

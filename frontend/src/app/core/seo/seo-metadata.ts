@@ -3,4 +3,6 @@ export interface SeoMetadata {
   description?: string;
   indexable?: boolean;
   canonicalPath?: string;
+  image?: string;
+  type?: 'website' | 'product';
 }

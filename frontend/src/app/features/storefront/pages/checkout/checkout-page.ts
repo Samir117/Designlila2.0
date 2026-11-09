@@ -18,7 +18,7 @@ import { FeedbackPanel } from '../../../../shared/ui/feedback-panel/feedback-pan
     `
       h1 {
         margin: 0 0 20px;
-        color: var(--color-ink);
+        color: var(--color-heading);
         font: 500 clamp(2rem, 5vw, 3.5rem) / 1.1 var(--font-display);
       }
     `,

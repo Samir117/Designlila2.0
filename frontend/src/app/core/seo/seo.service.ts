@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { SeoMetadata } from './seo-metadata';
 
@@ -11,7 +11,9 @@ export class SeoService {
   private readonly document = inject(DOCUMENT);
 
   apply(metadata: SeoMetadata, currentUrl: string): void {
-    this.title.setTitle(metadata.title ?? 'Design Lila | Detalles para celebrar');
+    const title = metadata.title ?? 'Design Lila | Detalles para celebrar';
+    const canonicalUrl = this.setCanonical(metadata.canonicalPath ?? currentUrl);
+    this.title.setTitle(title);
 
     if (metadata.description) {
       this.meta.updateTag({
@@ -23,12 +25,38 @@ export class SeoService {
     }
 
     const indexable = environment.indexingEnabled && metadata.indexable === true;
-    this.meta.updateTag({
-      name: 'robots',
-      content: indexable ? 'index, follow' : 'noindex, nofollow',
-    });
+    this.meta.updateTag(
+      {
+        name: 'robots',
+        content: indexable ? 'index, follow' : 'noindex, nofollow',
+      },
+      'name="robots"',
+    );
+    this.updateTag('og:title', title, 'property');
+    this.updateTag('og:description', metadata.description ?? '', 'property');
+    this.updateTag('og:type', metadata.type ?? 'website', 'property');
+    this.updateTag('og:url', canonicalUrl, 'property');
+    this.updateTag('og:site_name', 'Design Lila', 'property');
+    this.updateTag('og:image', metadata.image ?? '', 'property');
+    this.updateTag(
+      'twitter:card',
+      metadata.image ? 'summary_large_image' : 'summary',
+    );
+    this.updateTag('twitter:title', title);
+    this.updateTag('twitter:description', metadata.description ?? '');
+    this.updateTag('twitter:image', metadata.image ?? '');
 
-    this.setCanonical(metadata.canonicalPath ?? currentUrl);
+    if (!metadata.image) {
+      this.meta.removeTag('property="og:image"');
+      this.meta.removeTag('name="twitter:image"');
+    }
+
+    if (!metadata.description) {
+      this.meta.removeTag('property="og:description"');
+      this.meta.removeTag('name="twitter:description"');
+    }
+
+    this.clearStructuredData();
   }
 
   setStructuredData(value: Record<string, unknown>): void {
@@ -44,7 +72,28 @@ export class SeoService {
     script.textContent = JSON.stringify(value).replace(/</g, '\\u003c');
   }
 
-  private setCanonical(path: string): void {
+  private updateTag(
+    name: string,
+    content: string,
+    attribute: 'name' | 'property' = 'name',
+  ): void {
+    if (!content) {
+      this.meta.removeTag(`${attribute}="${name}"`);
+      return;
+    }
+
+    const definition: MetaDefinition =
+      attribute === 'property'
+        ? { property: name, content }
+        : { name, content };
+    this.meta.updateTag(definition);
+  }
+
+  clearStructuredData(): void {
+    this.document.getElementById('design-lila-jsonld')?.remove();
+  }
+
+  private setCanonical(path: string): string {
     const routePath = path.split(/[?#]/, 1)[0] || '/';
     const slashPath =
       routePath === '/' ? '/' : `/${routePath.replace(/^\/+|\/+$/g, '')}/`;
@@ -58,5 +107,6 @@ export class SeoService {
     }
 
     link.href = canonicalUrl;
+    return canonicalUrl;
   }
 }

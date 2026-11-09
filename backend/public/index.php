@@ -30,36 +30,35 @@ if (is_file($autoload)) {
     });
 }
 
-Env::load(dirname(__DIR__) . '/.env');
-
-$router = new Router();
-$router->get('/api/v1/health', static function (): never {
-    JsonResponse::success([
-        'application' => 'Design Lila API',
-        'status' => 'ok',
-        'php_version' => PHP_VERSION,
-    ]);
-});
-$router->get('/api/v1/health/database', static function (): never {
-    try {
-        $result = Connection::get()->query('SELECT 1')->fetchColumn();
-
-        if ($result !== 1 && $result !== '1') {
-            throw new RuntimeException('Unexpected database health check result.');
-        }
-
-        JsonResponse::success([
-            'database' => 'connected',
-            'test' => 'SELECT 1',
-        ]);
-    } catch (Throwable $exception) {
-        error_log('[database health check] ' . $exception->getMessage());
-        JsonResponse::error('Database connection failed.', 503);
-    }
-});
-ApiRoutes::register($router);
-
 try {
+    Env::load(dirname(__DIR__) . '/.env');
+
+    $router = new Router();
+    $router->get('/api/v1/health', static function (): never {
+        JsonResponse::success([
+            'application' => 'Design Lila API',
+            'status' => 'ok',
+            'php_version' => PHP_VERSION,
+        ]);
+    });
+    $router->get('/api/v1/health/database', static function (): never {
+        try {
+            $result = Connection::get()->query('SELECT 1')->fetchColumn();
+
+            if ($result !== 1 && $result !== '1') {
+                throw new RuntimeException('Unexpected database health check result.');
+            }
+
+            JsonResponse::success([
+                'database' => 'connected',
+                'test' => 'SELECT 1',
+            ]);
+        } catch (Throwable $exception) {
+            error_log('[database health check] ' . $exception);
+            JsonResponse::error('Database connection failed.', 503);
+        }
+    });
+    ApiRoutes::register($router);
     $router->dispatch(Request::method(), Request::path());
 } catch (HttpException $exception) {
     JsonResponse::error($exception->getMessage(), $exception->status(), $exception->details());

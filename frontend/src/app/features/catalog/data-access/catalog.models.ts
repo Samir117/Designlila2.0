@@ -10,8 +10,11 @@ export interface ProductVariant {
   id: number;
   sku: string;
   nombre: string;
-  atributos: Record<string, string>;
+  atributos: Record<string, unknown>;
   precio: string | null;
+  stock?: number;
+  stock_minimo?: number;
+  estado?: number;
   in_stock: number;
 }
 
@@ -30,11 +33,28 @@ export interface CatalogProduct {
   peso: string | null;
   meta_title: string | null;
   meta_description: string | null;
+  imagen?: string | null;
   destacado: number;
   modo_inventario: 'simple' | 'variantes';
+  estado?: number;
+  stock?: number;
+  stock_minimo?: number;
   in_stock: number;
   images: CatalogImage[];
   variants: ProductVariant[];
+}
+
+export interface CatalogCategory {
+  id: number;
+  categoria_padre_id: number | null;
+  nombre: string;
+  slug: string;
+  descripcion: string;
+  imagen: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  estado: number;
+  orden: number;
 }
 
 export interface ProductListResponse {

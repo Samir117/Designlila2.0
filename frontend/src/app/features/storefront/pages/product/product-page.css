@@ -8,7 +8,7 @@
 .product-image {
   overflow: hidden;
   border-radius: var(--radius-card);
-  background: var(--color-lilac-soft);
+  background: var(--color-secondary);
 }
 
 .product-image img,
@@ -21,7 +21,7 @@
 
 .image-placeholder {
   display: grid;
-  color: var(--color-text-muted);
+  color: var(--color-body-muted);
   place-items: center;
 }
 
@@ -31,14 +31,14 @@
 
 .eyebrow {
   margin: 0 0 10px;
-  color: var(--color-plum);
+  color: var(--color-heading);
   font-size: 0.8rem;
   font-weight: 700;
 }
 
 h1 {
   margin: 0;
-  color: var(--color-ink);
+  color: var(--color-heading);
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 4.25rem);
   font-weight: 500;
@@ -48,7 +48,7 @@ h1 {
 
 .summary,
 .availability {
-  color: var(--color-text-muted);
+  color: var(--color-body-muted);
   line-height: 1.7;
 }
 
@@ -58,7 +58,7 @@ h1 {
 
 .price {
   margin: 26px 0 8px;
-  color: var(--color-ink);
+  color: var(--color-heading);
   font-size: 1.6rem;
   font-weight: 750;
 }

@@ -208,7 +208,7 @@ Los usuarios administrativos se crean con `POST /api/v1/admin/users` y `{ "name"
 
 El archivo `.cpanel.yml` publica el backend y el build estático incluido del frontend en `/home/designli/dev.designlila.com/backend`; el document root del subdominio es `/home/designli/dev.designlila.com/backend/public`. El build se genera localmente en `frontend/deploy/browser` y se versiona para que cPanel no necesite Node.js. El directorio clonado en Git Version Control debe estar fuera del document root, por ejemplo `/home/designli/repositories/Designlila2.0`.
 
-1. Desde `frontend`, ejecuta `npm ci` y `npm run build`; verifica que `frontend/deploy/browser/index.html` exista y conserve `noindex, nofollow`.
+1. Desde `frontend`, ejecuta `npm ci` y `npm run build`; verifica que `frontend/deploy/browser/index.html` tenga HTML prerenderizado y conserve `noindex, nofollow`.
 2. Haz commit y push a `main`, incluyendo el artefacto generado en `frontend/deploy/browser`.
 3. En cPanel, ejecuta **Update from Remote** y luego **Deploy HEAD Commit**. El archivo de despliegue tiene como destino únicamente el entorno `dev.designlila.com`.
 4. Conserva el document root del subdominio en `/home/designli/dev.designlila.com/backend/public`.

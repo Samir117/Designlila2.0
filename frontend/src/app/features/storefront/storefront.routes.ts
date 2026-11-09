@@ -15,7 +15,7 @@ export const STOREFRONT_ROUTES: Routes = [
           seo: {
             description:
               'Detalles personalizados para celebrar momentos especiales.',
-            indexable: false,
+            indexable: true,
           },
         },
       },
@@ -26,7 +26,7 @@ export const STOREFRONT_ROUTES: Routes = [
             (module) => module.ProductPage,
           ),
         title: 'Producto | Design Lila',
-        data: { seo: { indexable: false } },
+        data: { seo: { indexable: true } },
       },
       {
         path: 'product-category/:slug',
@@ -40,8 +40,8 @@ export const STOREFRONT_ROUTES: Routes = [
       {
         path: 'category/:slug',
         loadComponent: () =>
-          import('./pages/category/category-page').then(
-            (module) => module.CategoryPage,
+          import('./pages/content/content-page').then(
+            (module) => module.ContentPage,
           ),
         title: 'Ideas y novedades | Design Lila',
         data: { seo: { indexable: false } },
