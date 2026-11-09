@@ -1,23 +1,17 @@
-import { Component, input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 
-@Component({
-  selector: 'app-action-button',
+@Directive({
+  selector: 'button[appActionButton]',
   standalone: true,
-  template: `
-    <button
-      [attr.type]="type()"
-      [class.secondary]="variant() === 'secondary'"
-      [disabled]="disabled()"
-      [attr.aria-busy]="busy()"
-    >
-      <ng-content />
-    </button>
-  `,
-  styleUrl: './action-button.css',
+  host: {
+    class: 'dl-button',
+    '[class.dl-button--primary]': "variant() === 'primary'",
+    '[class.dl-button--outline]': "variant() === 'outline'",
+    '[class.dl-button--soft]': "variant() === 'soft'",
+    '[attr.aria-busy]': "busy() ? 'true' : null",
+  },
 })
 export class ActionButton {
-  readonly type = input<'button' | 'submit' | 'reset'>('button');
-  readonly variant = input<'primary' | 'secondary'>('primary');
-  readonly disabled = input(false);
+  readonly variant = input<'primary' | 'outline' | 'soft'>('primary');
   readonly busy = input(false);
 }
